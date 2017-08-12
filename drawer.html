@@ -12,7 +12,7 @@
 
         div.hour {
             position: absolute;
-            background-color: lightseagreen
+            background-color: #ccfaff
         }
     </style>
 </head>
@@ -69,17 +69,19 @@
                     + 'px;top: ' + i * SCALING
                     + 'px;left: ' + 0
                     + 'px;height: ' + 30 * SCALING + 'px;">'
+                    + (i / 60 + hourZero) + ":00"
                     + '</div>';
             }
         }
         drawTimeSlots(hourZero, hourEnd, SCALING);
 
         let WIDTH = 300;
+        let MARGIN = 100;
         data.map(t => {
             let start = asMinutes(t.starts);
             let end = asMinutes(t.ends);
             return {
-                x: (t.room - 1) * WIDTH,
+                x: (t.room - 1) * WIDTH + MARGIN,
                 y: start * SCALING,
                 w: WIDTH,
                 h: end * SCALING - start * SCALING,
