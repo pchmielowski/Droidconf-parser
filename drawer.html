@@ -3,11 +3,16 @@
 
 <head>
     <style>
-        div.absolute {
+        div.talk {
             font-family: sans-serif;
             text-align: center;
             position: absolute;
             background-color: gray;
+        }
+
+        div.hour {
+            position: absolute;
+            background-color: lightseagreen
         }
     </style>
 </head>
@@ -16,7 +21,6 @@
 
     <div id='canvas'></div>
     <script>
-        // fake data
         let data = [
             {
                 "topic": "A look at the code of tools and libs from an indie developer",
@@ -48,21 +52,34 @@
             }
         ];
 
+        let hourZero = 9;
+        let hourEnd = 22;
         // hh:mm to integer minutes relative to 9:00
         let asMinutes = asString => {
             let splitted = asString.split(':');
-            let hourZero = 9;
             return (splitted[0] - hourZero) * 60 + parseInt(splitted[1]);
         };
+        let SCALING = 1.5;
+
+        let drawTimeSlots = (hourZero, hourEnd, SCALING) => {
+            for (var i = 0; i < (hourEnd - hourZero) * 60; i += 60) {
+                document.getElementById('canvas').innerHTML
+                    += '<div class="hour"'
+                    + 'style="width: ' + window.innerWidth
+                    + 'px;top: ' + i * SCALING
+                    + 'px;left: ' + 0
+                    + 'px;height: ' + 30 * SCALING + 'px;">'
+                    + '</div>';
+            }
+        }
+        drawTimeSlots(hourZero, hourEnd, SCALING);
 
         let WIDTH = 300;
-        let BORDER = 2;
-        let SCALING = 1.5;
         data.map(t => {
             let start = asMinutes(t.starts);
             let end = asMinutes(t.ends);
             return {
-                x: (t.room - 1) * (WIDTH + BORDER),
+                x: (t.room - 1) * WIDTH,
                 y: start * SCALING,
                 w: WIDTH,
                 h: end * SCALING - start * SCALING,
@@ -70,7 +87,7 @@
             }
         }).forEach(it => {
             document.getElementById('canvas').innerHTML
-                += '<div class="absolute"'
+                += '<div class="talk"'
                 + 'style="width: ' + it.w
                 + 'px;top: ' + it.y
                 + 'px;left: ' + it.x
