@@ -14,6 +14,7 @@
             position: absolute;
             background-color: #ccfaff
         }
+
         div.day {
             position: absolute;
             background-color: #abcfda
@@ -64,27 +65,25 @@
             return (splitted[0] - hourZero) * 60 + parseInt(splitted[1]);
         };
         let SCALING = 1.5;
-
+        let drawDiv = (cls, width, top, left, height, text) => {
+            document.getElementById('canvas').innerHTML
+                += '<div class=' + cls
+                + ' style="width: ' + width
+                + 'px;top: ' + top
+                + 'px;left: ' + left
+                + 'px;height: ' + height + 'px;">'
+                + text
+                + '</div>';
+        };
         let drawTimeSlots = (hourZero, hourEnd, SCALING) => {
             let HOURS_PER_DAY = hourEnd - hourZero;
             for (var day = 0; day < 3; day++) {
-                document.getElementById('canvas').innerHTML
-                    += '<div class="day"'
-                    + 'style="width: 30'
-                    + 'px;top: ' + (day * HOURS_PER_DAY) * 60 * SCALING
-                    + 'px;left: 0'
-                    + 'px;height: ' + HOURS_PER_DAY * 60 * SCALING + 'px;">'
-                    + (day + 1)
-                    + '</div>';
+                drawDiv('day', 30, (day * HOURS_PER_DAY) * 60 * SCALING,
+                    0, HOURS_PER_DAY * 60 * SCALING, day + 1);
                 for (var i = 0; i < HOURS_PER_DAY; i++) {
-                    document.getElementById('canvas').innerHTML
-                        += '<div class="hour"'
-                        + 'style="width: ' + window.innerWidth
-                        + 'px;top: ' + (i + day * HOURS_PER_DAY) * 60 * SCALING
-                        + 'px;left: 30'
-                        + 'px;height: ' + 30 * SCALING + 'px;">'
-                        + (i + hourZero) + ":00"
-                        + '</div>';
+                    drawDiv("hour", window.innerWidth,
+                        (i + day * HOURS_PER_DAY) * 60 * SCALING, 30,
+                        30 * SCALING, (i + hourZero) + ":00");
                 }
             }
         }
@@ -103,14 +102,7 @@
                 topic: t.topic
             }
         }).forEach(it => {
-            document.getElementById('canvas').innerHTML
-                += '<div class="talk"'
-                + 'style="width: ' + it.w
-                + 'px;top: ' + it.y
-                + 'px;left: ' + it.x
-                + 'px;height: ' + it.h + 'px;">'
-                + it.topic
-                + '</div>';
+            drawDiv("talk", it.w, it.y, it.x, it.h, it.topic);
         });
     </script>
 </body>
