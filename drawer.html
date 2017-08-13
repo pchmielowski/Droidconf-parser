@@ -28,41 +28,28 @@
     <script>
         let data = [
             {
-                "topic": "A look at the code of tools and libs from an indie developer",
+                "topic": "Second day 14-15",
                 "date": "09/05/2017",
-                "starts": "12:30",
-                "ends": "13:00",
+                "starts": "14:00",
+                "ends": "15:00",
                 "room": "1"
             },
             {
-                "topic": "Android Instant Apps",
+                "topic": "First day 12-13",
                 "date": "09/04/2017",
-                "starts": "14:30",
-                "ends": "15:15",
+                 "starts": "12:00",
+                "ends": "13:00",
                 "room": "2"
-            },
-            {
-                "topic": "Android Security, an Enterprise perspective",
-                "date": "09/04/2017",
-                "starts": "17:00",
-                "ends": "17:45",
-                "room": "4"
-            },
-            {
-                "topic": "Android Things Workshop, From Dev To Maker",
-                "date": "09/05/2017",
-                "starts": "14:00",
-                "ends": "16:15",
-                "room": "3"
             }
         ];
 
         let hourZero = 9;
         let hourEnd = 22;
+        let HOURS_PER_DAY = hourEnd - hourZero;
         // hh:mm to integer minutes relative to 9:00
-        let asMinutes = asString => {
+        let asMinutes = (asString, day) => {
             let splitted = asString.split(':');
-            return (splitted[0] - hourZero) * 60 + parseInt(splitted[1]);
+            return (splitted[0] - hourZero + HOURS_PER_DAY * day) * 60 + parseInt(splitted[1]);
         };
         let SCALING = 1.5;
         let drawDiv = (cls, width, top, left, height, text) => {
@@ -76,8 +63,7 @@
                 + '</div>';
         };
         let drawTimeSlots = (hourZero, hourEnd, SCALING) => {
-            let HOURS_PER_DAY = hourEnd - hourZero;
-            for (var day = 0; day < 3; day++) {
+            for (var day = 0; day < 2; day++) {
                 drawDiv('day', 30, (day * HOURS_PER_DAY) * 60 * SCALING,
                     0, HOURS_PER_DAY * 60 * SCALING, day + 1);
                 for (var i = 0; i < HOURS_PER_DAY; i++) {
@@ -92,8 +78,9 @@
         let WIDTH = 300;
         let MARGIN = 100;
         data.map(t => {
-            let start = asMinutes(t.starts);
-            let end = asMinutes(t.ends);
+            let day = t.date === "09/04/2017" ? 0 : 1;
+            let start = asMinutes(t.starts, day);
+            let end = asMinutes(t.ends, day);
             return {
                 x: (t.room - 1) * WIDTH + MARGIN,
                 y: start * SCALING,
