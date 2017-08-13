@@ -9,6 +9,7 @@
             font-family: sans-serif;
             text-align: center;
             position: absolute;
+            border: 1px solid white;
             background-color: gray;
         }
 
@@ -29,15 +30,15 @@
     <div id='canvas'></div>
     <script>
         $.getJSON("data.json", function (data) {
-            let hourZero = 9;
-            let hourEnd = 22;
+            let hourZero = 10;
+            let hourEnd = 19;
             let HOURS_PER_DAY = hourEnd - hourZero;
             // hh:mm to integer minutes relative to 9:00
             let asMinutes = (asString, day) => {
                 let splitted = asString.split(':');
                 return (splitted[0] - hourZero + HOURS_PER_DAY * day) * 60 + parseInt(splitted[1]);
             };
-            let SCALING = 1.5;
+            let SCALING = 1.7;
             let drawDiv = (cls, width, top, left, height, text) => {
                 document.getElementById('canvas').innerHTML
                     += '<div class=' + cls
