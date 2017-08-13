@@ -62,14 +62,14 @@
         let SCALING = 1.5;
 
         let drawTimeSlots = (hourZero, hourEnd, SCALING) => {
-            for (var i = 0; i < (hourEnd - hourZero) * 60; i += 60) {
+            for (var i = 0; i < hourEnd - hourZero; i++) {
                 document.getElementById('canvas').innerHTML
                     += '<div class="hour"'
                     + 'style="width: ' + window.innerWidth
-                    + 'px;top: ' + i * SCALING
-                    + 'px;left: ' + 0
+                    + 'px;top: ' + i * 60 * SCALING
+                    + 'px;left: 0'
                     + 'px;height: ' + 30 * SCALING + 'px;">'
-                    + (i / 60 + hourZero) + ":00"
+                    + (i + hourZero) + ":00"
                     + '</div>';
             }
         }
