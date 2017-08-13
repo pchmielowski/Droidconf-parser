@@ -14,6 +14,10 @@
             position: absolute;
             background-color: #ccfaff
         }
+        div.day {
+            position: absolute;
+            background-color: #abcfda
+        }
     </style>
 </head>
 
@@ -62,15 +66,26 @@
         let SCALING = 1.5;
 
         let drawTimeSlots = (hourZero, hourEnd, SCALING) => {
-            for (var i = 0; i < hourEnd - hourZero; i++) {
+            let HOURS_PER_DAY = hourEnd - hourZero;
+            for (var day = 0; day < 3; day++) {
                 document.getElementById('canvas').innerHTML
-                    += '<div class="hour"'
-                    + 'style="width: ' + window.innerWidth
-                    + 'px;top: ' + i * 60 * SCALING
+                    += '<div class="day"'
+                    + 'style="width: 30'
+                    + 'px;top: ' + (day * HOURS_PER_DAY) * 60 * SCALING
                     + 'px;left: 0'
-                    + 'px;height: ' + 30 * SCALING + 'px;">'
-                    + (i + hourZero) + ":00"
+                    + 'px;height: ' + HOURS_PER_DAY * 60 * SCALING + 'px;">'
+                    + (day + 1)
                     + '</div>';
+                for (var i = 0; i < HOURS_PER_DAY; i++) {
+                    document.getElementById('canvas').innerHTML
+                        += '<div class="hour"'
+                        + 'style="width: ' + window.innerWidth
+                        + 'px;top: ' + (i + day * HOURS_PER_DAY) * 60 * SCALING
+                        + 'px;left: 30'
+                        + 'px;height: ' + 30 * SCALING + 'px;">'
+                        + (i + hourZero) + ":00"
+                        + '</div>';
+                }
             }
         }
         drawTimeSlots(hourZero, hourEnd, SCALING);
