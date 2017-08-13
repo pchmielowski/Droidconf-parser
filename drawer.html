@@ -5,6 +5,9 @@
 
     <script src="jquery-3.2.1.min.js"></script>
     <style>
+        a {
+            color: whitesmoke
+        }
         div.talk {
             font-family: sans-serif;
             text-align: center;
@@ -73,10 +76,10 @@
                     y: start * SCALING,
                     w: WIDTH,
                     h: end * SCALING - start * SCALING,
-                    topic: t.topic
+                    origin: t
                 }
             }).forEach(it => {
-                drawDiv("talk", it.w, it.y, it.x, it.h, it.topic);
+                drawDiv("talk", it.w, it.y, it.x, it.h, '<a href=' + it.origin.link + '>' + it.origin.topic + '</a>');
             });
 
         });
