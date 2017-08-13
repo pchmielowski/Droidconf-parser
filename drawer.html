@@ -2,6 +2,8 @@
 <html>
 
 <head>
+
+    <script src="jquery-3.2.1.min.js"></script>
     <style>
         div.talk {
             font-family: sans-serif;
@@ -26,70 +28,56 @@
 
     <div id='canvas'></div>
     <script>
-        let data = [
-            {
-                "topic": "Second day 14-15",
-                "date": "09/05/2017",
-                "starts": "14:00",
-                "ends": "15:00",
-                "room": "1"
-            },
-            {
-                "topic": "First day 12-13",
-                "date": "09/04/2017",
-                 "starts": "12:00",
-                "ends": "13:00",
-                "room": "2"
-            }
-        ];
-
-        let hourZero = 9;
-        let hourEnd = 22;
-        let HOURS_PER_DAY = hourEnd - hourZero;
-        // hh:mm to integer minutes relative to 9:00
-        let asMinutes = (asString, day) => {
-            let splitted = asString.split(':');
-            return (splitted[0] - hourZero + HOURS_PER_DAY * day) * 60 + parseInt(splitted[1]);
-        };
-        let SCALING = 1.5;
-        let drawDiv = (cls, width, top, left, height, text) => {
-            document.getElementById('canvas').innerHTML
-                += '<div class=' + cls
-                + ' style="width: ' + width
-                + 'px;top: ' + top
-                + 'px;left: ' + left
-                + 'px;height: ' + height + 'px;">'
-                + text
-                + '</div>';
-        };
-        let drawTimeSlots = (hourZero, hourEnd, SCALING) => {
-            for (var day = 0; day < 2; day++) {
-                drawDiv('day', 30, (day * HOURS_PER_DAY) * 60 * SCALING,
-                    0, HOURS_PER_DAY * 60 * SCALING, day + 1);
-                for (var i = 0; i < HOURS_PER_DAY; i++) {
-                    drawDiv("hour", window.innerWidth,
-                        (i + day * HOURS_PER_DAY) * 60 * SCALING, 30,
-                        30 * SCALING, (i + hourZero) + ":00");
+        $.getJSON("data.json", function (data) {
+            let hourZero = 9;
+            let hourEnd = 22;
+            let HOURS_PER_DAY = hourEnd - hourZero;
+            // hh:mm to integer minutes relative to 9:00
+            let asMinutes = (asString, day) => {
+                let splitted = asString.split(':');
+                return (splitted[0] - hourZero + HOURS_PER_DAY * day) * 60 + parseInt(splitted[1]);
+            };
+            let SCALING = 1.5;
+            let drawDiv = (cls, width, top, left, height, text) => {
+                document.getElementById('canvas').innerHTML
+                    += '<div class=' + cls
+                    + ' style="width: ' + width
+                    + 'px;top: ' + top
+                    + 'px;left: ' + left
+                    + 'px;height: ' + height + 'px;">'
+                    + text
+                    + '</div>';
+            };
+            let drawTimeSlots = (hourZero, hourEnd, SCALING) => {
+                for (var day = 0; day < 2; day++) {
+                    drawDiv('day', 30, (day * HOURS_PER_DAY) * 60 * SCALING,
+                        0, HOURS_PER_DAY * 60 * SCALING, day + 1);
+                    for (var i = 0; i < HOURS_PER_DAY; i++) {
+                        drawDiv("hour", window.innerWidth,
+                            (i + day * HOURS_PER_DAY) * 60 * SCALING, 30,
+                            30 * SCALING, (i + hourZero) + ":00");
+                    }
                 }
             }
-        }
-        drawTimeSlots(hourZero, hourEnd, SCALING);
+            drawTimeSlots(hourZero, hourEnd, SCALING);
 
-        let WIDTH = 300;
-        let MARGIN = 100;
-        data.map(t => {
-            let day = t.date === "09/04/2017" ? 0 : 1;
-            let start = asMinutes(t.starts, day);
-            let end = asMinutes(t.ends, day);
-            return {
-                x: (t.room - 1) * WIDTH + MARGIN,
-                y: start * SCALING,
-                w: WIDTH,
-                h: end * SCALING - start * SCALING,
-                topic: t.topic
-            }
-        }).forEach(it => {
-            drawDiv("talk", it.w, it.y, it.x, it.h, it.topic);
+            let WIDTH = 300;
+            let MARGIN = 100;
+            data.map(t => {
+                let day = t.date === "09/04/2017" ? 0 : 1;
+                let start = asMinutes(t.starts, day);
+                let end = asMinutes(t.ends, day);
+                return {
+                    x: (t.room - 1) * WIDTH + MARGIN,
+                    y: start * SCALING,
+                    w: WIDTH,
+                    h: end * SCALING - start * SCALING,
+                    topic: t.topic
+                }
+            }).forEach(it => {
+                drawDiv("talk", it.w, it.y, it.x, it.h, it.topic);
+            });
+
         });
     </script>
 </body>
