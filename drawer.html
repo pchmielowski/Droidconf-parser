@@ -50,21 +50,17 @@
                     + 'px;height: ' + height + 'px;">'
                     + text
                     + '</div>';
-            let drawDiv = (cls, width, top, left, height, text) => {
-                document.getElementById('canvas').innerHTML
-                    += createDiv(cls, width, top, left, height, text);
-            };
             let draw = (content) => {
                 document.getElementById('canvas').innerHTML += content;
             };
             let drawTimeSlots = (hourZero, hourEnd, SCALING) => {
                 for (var day = 0; day < 2; day++) {
-                    drawDiv('day', 30, (day * HOURS_PER_DAY) * 60 * SCALING,
-                        0, HOURS_PER_DAY * 60 * SCALING, day + 1);
+                    draw(createDiv('day', 30, (day * HOURS_PER_DAY) * 60 * SCALING,
+                        0, HOURS_PER_DAY * 60 * SCALING, day + 1));
                     for (var i = 0; i < HOURS_PER_DAY; i++) {
-                        drawDiv("hour", window.innerWidth,
+                        draw(createDiv("hour", window.innerWidth,
                             (i + day * HOURS_PER_DAY) * 60 * SCALING, 30,
-                            30 * SCALING, (i + hourZero) + ":00");
+                            30 * SCALING, (i + hourZero) + ":00"));
                     }
                 }
             }
