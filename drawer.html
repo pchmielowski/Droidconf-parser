@@ -32,7 +32,7 @@
 
     <div id='canvas'></div>
     <script>
-        $.getJSON("data.json", function (data) {
+        $.getJSON("data.json", (data) => {
             let hourZero = 10;
             let hourEnd = 19;
             let HOURS_PER_DAY = hourEnd - hourZero;
