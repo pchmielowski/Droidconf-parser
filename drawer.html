@@ -36,7 +36,7 @@
             let hourZero = 10;
             let hourEnd = 19;
             let HOURS_PER_DAY = hourEnd - hourZero;
-            // hh:mm to integer minutes relative to 9:00
+            // hh:mm to integer minutes relative to hourZero
             let asMinutes = (asString, day) => {
                 let splitted = asString.split(':');
                 return (splitted[0] - hourZero + HOURS_PER_DAY * day) * 60 + parseInt(splitted[1]);
