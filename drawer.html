@@ -42,15 +42,20 @@
                 return (splitted[0] - hourZero + HOURS_PER_DAY * day) * 60 + parseInt(splitted[1]);
             };
             let SCALING = 1.7;
-            let drawDiv = (cls, width, top, left, height, text) => {
-                document.getElementById('canvas').innerHTML
-                    += '<div class=' + cls
+            let createDiv = (cls, width, top, left, height, text) => 
+                    '<div class=' + cls
                     + ' style="width: ' + width
                     + 'px;top: ' + top
                     + 'px;left: ' + left
                     + 'px;height: ' + height + 'px;">'
                     + text
                     + '</div>';
+            let drawDiv = (cls, width, top, left, height, text) => {
+                document.getElementById('canvas').innerHTML
+                    += createDiv(cls, width, top, left, height, text);
+            };
+            let draw = (content) => {
+                document.getElementById('canvas').innerHTML += content;
             };
             let drawTimeSlots = (hourZero, hourEnd, SCALING) => {
                 for (var day = 0; day < 2; day++) {
@@ -78,9 +83,9 @@
                     h: end * SCALING - start * SCALING,
                     origin: t
                 }
-            }).forEach(it => {
-                drawDiv("talk", it.w, it.y, it.x, it.h, '<a href=' + it.origin.link + '>' + it.origin.topic + '</a>');
-            });
+            }).map(it => 
+                createDiv("talk", it.w, it.y, it.x, it.h, '<a href=' + it.origin.link + '>' + it.origin.topic + '</a>')
+            ).forEach(draw);
 
         });
     </script>
